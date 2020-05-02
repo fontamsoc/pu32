@@ -1,0 +1,18 @@
+[submodule "gcc"]
+	path = gcc
+	url = https://github.com/fontamsoc/gcc.git
+[submodule "glibc"]
+	path = glibc
+	url = https://github.com/fontamsoc/glibc.git
+[submodule "binutils"]
+	path = binutils
+	url = https://github.com/fontamsoc/binutils-gdb.git
+[submodule "buildroot"]
+	path = buildroot
+	url = https://github.com/fontamsoc/buildroot.git
+[submodule "linux"]
+	path = linux
+	url = https://github.com/fontamsoc/linux.git
+[submodule "fontamsoc-sw"]
+	path = fontamsoc-sw
+	url = https://github.com/fontamsoc/sw.git

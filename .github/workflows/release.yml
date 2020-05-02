@@ -1,0 +1,92 @@
+on:
+  push:
+    tags:
+    - '*'
+  workflow_dispatch:
+
+name: pu32-toolchain
+
+jobs:
+  job0:
+    name: Release
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout repository and submodules
+        uses: actions/checkout@v2
+        with:
+          submodules: recursive
+      - name: Build project
+        working-directory: ../
+        run: |
+          sudo ln -snf /bin/bash /bin/sh
+          PATH="${PATH}:/opt/pu32-toolchain/bin" make -f pu32-toolchain/makefile > pu32-toolchain/build.log
+          (cd pu32-toolchain-build/ && tar -caf pu32-vmlinux.xz vmlinux && rm -rf vmlinux)
+          (cd pu32-toolchain-build/ && tar -caf pu32-rootfs.ext2.xz rootfs.ext2 && rm -rf rootfs.ext?)
+          mv pu32-toolchain-build/*.xz pu32-toolchain/
+      - name: Save build.log
+        uses: actions/upload-artifact@v2
+        with:
+          path: build.log
+          name: build.log
+      - name: Create Release
+        if: startsWith(github.ref, 'refs/tags/')
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          draft: false
+          prerelease: false
+      - name: Save pu32-toolchain.tar.xz
+        if: startsWith(github.ref, 'refs/heads/')
+        uses: actions/upload-artifact@v2
+        with:
+          path: pu32-toolchain.tar.xz
+          name: pu32-toolchain.tar.xz
+      - name: Upload pu32-toolchain.tar.xz
+        if: startsWith(github.ref, 'refs/tags/')
+        id: upload-pu32-toolchain-tar-xz
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: pu32-toolchain.tar.xz
+          asset_name: pu32-toolchain.tar.xz
+          asset_content_type: application/tar+xz
+      - name: Save pu32-vmlinux.xz
+        if: startsWith(github.ref, 'refs/heads/')
+        uses: actions/upload-artifact@v2
+        with:
+          path: pu32-vmlinux.xz
+          name: pu32-vmlinux.xz
+      - name: Upload pu32-vmlinux.xz
+        if: startsWith(github.ref, 'refs/tags/')
+        id: upload-vmlinux-xz
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: pu32-vmlinux.xz
+          asset_name: pu32-vmlinux.xz
+          asset_content_type: application/tar+xz
+      - name: Save pu32-rootfs.ext2.xz
+        if: startsWith(github.ref, 'refs/heads/')
+        uses: actions/upload-artifact@v2
+        with:
+          path: pu32-rootfs.ext2.xz
+          name: pu32-rootfs.ext2.xz
+      - name: Upload pu32-rootfs.ext2.xz
+        if: startsWith(github.ref, 'refs/tags/')
+        id: upload-rootfs-ext2-xz
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: pu32-rootfs.ext2.xz
+          asset_name: pu32-rootfs.ext2.xz
+          asset_content_type: application/tar+xz
