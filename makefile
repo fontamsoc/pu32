@@ -5,7 +5,7 @@
 
 NPROC ?= $(shell nproc)
 
-all: pu32-toolchain-build/pu32-toolchain.tar.xz
+all: pu32-toolchain.tar.xz
 
 pu32-toolchain-build: pu32-toolchain
 	echo - $@: NPROC == ${NPROC} >&2
@@ -39,7 +39,7 @@ pu32-toolchain-build/.linux: pu32-toolchain/linux
 		make -C ${KERNEL_SOURCE} O=${KERNEL_BUILD} ARCH=pu32 defconfig && \
 		make ARCH=pu32 CROSS_COMPILE=pu32-elf- V=1 INSTALL_HDR_PATH=/opt/pu32-toolchain headers_install; fi
 	if [ -e ${KERNEL_BUILD} ]; then cd ${KERNEL_BUILD} && make ARCH=pu32 CROSS_COMPILE=pu32-elf- V=1 vmlinux.bin && \
-		cp -a vmlinux ../pu32-toolchain-build/; fi
+		mv vmlinux ../pu32-vmlinux && mv arch/pu32/boot/vmlinux.bin ../pu32-vmlinux.bin; fi
 	touch $@
 
 pu32-toolchain-build/.glibc: pu32-toolchain/glibc
@@ -64,7 +64,7 @@ pu32-toolchain-build/.buildroot: pu32-toolchain/buildroot
 	if [ ! -e ${BUILDROOT_BUILD} ]; then mkdir -p ${BUILDROOT_BUILD} && cd ${BUILDROOT_BUILD} && \
 		make -C ${BUILDROOT_SOURCE} O=${BUILDROOT_BUILD} pu32_defconfig; fi
 	if [ -e ${BUILDROOT_BUILD} ]; then cd ${BUILDROOT_BUILD} && make -j${NPROC} V=1 && \
-		cp -a images/rootfs.* ../pu32-toolchain-build/; fi
+		mv images/rootfs.ext2 ../pu32-rootfs.ext2; fi
 	touch $@
 
 pu32-toolchain-build/.fontamsoc-sw: pu32-toolchain/fontamsoc-sw
@@ -72,7 +72,7 @@ pu32-toolchain-build/.fontamsoc-sw: pu32-toolchain/fontamsoc-sw
 	cd pu32-toolchain/fontamsoc-sw/bios && make -j${NPROC} install;
 	touch $@
 
-pu32-toolchain-build/pu32-toolchain.tar.xz: \
+pu32-toolchain.tar.xz: \
 	pu32-toolchain-build \
 	pu32-toolchain-build/.binutils \
 	gcc-build \
@@ -82,8 +82,7 @@ pu32-toolchain-build/pu32-toolchain.tar.xz: \
 	pu32-toolchain-build/.buildroot \
 	pu32-toolchain-build/.fontamsoc-sw
 	echo - $@: NPROC == ${NPROC} >&2
-	cd pu32-toolchain-build/ && \
-		tar -caf pu32-toolchain.tar.xz -C /opt/ --exclude pu32-toolchain/.git pu32-toolchain && \
+	tar -caf pu32-toolchain.tar.xz -C /opt/ --exclude pu32-toolchain/.git pu32-toolchain && \
 		ls -lha >&2
 
 touch-binutils:
@@ -100,4 +99,5 @@ touch-fontamsoc-sw:
 	touch pu32-toolchain/fontamsoc-sw
 
 clean:
-	rm -rf pu32-toolchain-build binutils-build linux-build glibc-build gcc-build buildroot-build
+	rm -rf pu32-toolchain-build binutils-build linux-build glibc-build gcc-build buildroot-build \
+		pu32-vmlinux pu32-vmlinux.bin pu32-rootfs.ext2 pu32-toolchain.tar.xz
