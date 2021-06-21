@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: GPL-2.0-only
 # Contributed by William Fonkou Tambe
 
-.PHONY: all clean
+.PHONY: all linux-menuconfig buildroot-menuconfig touch-binutils touch-gcc touch-linux touch-glibc touch-buildroot touch-fontamsoc-sw clean
 
 NPROC ?= $(shell nproc)
 
@@ -84,6 +84,20 @@ pu32-toolchain.tar.xz: \
 	echo - $@: NPROC == ${NPROC} >&2
 	tar -caf pu32-toolchain.tar.xz -C /opt/ --exclude pu32-toolchain/.git pu32-toolchain && \
 		ls -lha >&2
+
+linux-menuconfig:
+	$(eval KERNEL_BUILD := "${PWD}/linux-build/")
+	$(eval KERNEL_SOURCE := "${PWD}/pu32-toolchain/linux/")
+	if [ ! -e ${KERNEL_BUILD} ]; then mkdir -p ${KERNEL_BUILD} && cd ${KERNEL_BUILD} && \
+		make -C ${KERNEL_SOURCE} O=${KERNEL_BUILD} ARCH=pu32 defconfig; fi
+	if [ -e ${KERNEL_BUILD} ]; then cd ${KERNEL_BUILD} && make ARCH=pu32 CROSS_COMPILE=pu32-elf- menuconfig; fi
+
+buildroot-menuconfig:
+	$(eval BUILDROOT_BUILD := "${PWD}/buildroot-build/")
+	$(eval BUILDROOT_SOURCE := "${PWD}/pu32-toolchain/buildroot/")
+	if [ ! -e ${BUILDROOT_BUILD} ]; then mkdir -p ${BUILDROOT_BUILD} && cd ${BUILDROOT_BUILD} && \
+		make -C ${BUILDROOT_SOURCE} O=${BUILDROOT_BUILD} pu32_defconfig; fi
+	if [ -e ${BUILDROOT_BUILD} ]; then cd ${BUILDROOT_BUILD} && make menuconfig; fi
 
 touch-binutils:
 	touch pu32-toolchain/binutils
