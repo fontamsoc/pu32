@@ -41,7 +41,7 @@ Flash image to sdcard using either `dd if=pu32-vmlinux.img of=/dev/<sdx> bs=1M o
 
 Flash corresponding FPGA bitstream:
 - [xula2lx25](xula2lx25.bit)
-- [nexys4ddr](nexys4ddr.bit)
+- [nexys4ddr / nexysa7](nexys4ddr.bit)
 
 ## Reconfigure Linux kernel
 
