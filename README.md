@@ -35,7 +35,7 @@ Environment `PATH` must be updated as follow `PATH="${PATH}:/opt/pu32-toolchain/
 
 Create mbr-style disk image:
 
-	sudo pu32-mksocimg -k pu32-vmlinux.bin -r pu32-rootfs.ext2 pu32-vmlinux.img
+	sudo /opt/pu32-toolchain/bin/pu32-mksocimg -k pu32-vmlinux.bin -r pu32-rootfs.ext2 pu32-vmlinux.img
 
 Flash image to sdcard using either `dd if=pu32-vmlinux.img of=/dev/<sdx> bs=1M oflag=sync status=progress` or [BalenaEtcher](https://www.balena.io/etcher).
 
