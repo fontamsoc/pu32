@@ -19,6 +19,7 @@ jobs:
         working-directory: ../
         run: |
           sudo ln -snf /bin/bash /bin/sh
+          sudo mount --bind /${PWD} /opt/
           sudo mkdir -p /opt/pu32-toolchain/
           sudo chown ${UID} /opt/pu32-toolchain/
           PATH="${PATH}:/opt/pu32-toolchain/bin" make -f pu32/makefile > pu32/build.log
