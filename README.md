@@ -31,8 +31,8 @@ Create mbr-style disk image (or [download prebuilt img](https://github.com/fonta
 Flash image to sdcard using either `dd if=pu32-vmlinux.img of=/dev/<sdx> bs=1M oflag=sync status=progress` or [BalenaEtcher](https://www.balena.io/etcher).
 
 Flash corresponding FPGA bitstream:
-- [xula2lx25](xula2lx25.bit)
-- [nexys4ddr / nexysa7](nexys4ddr.bit)
+- [xula2lx25](xula2lx25.bit) ([rebuild](https://github.com/fontamsoc/hw/tree/master/pu32-xula2lx25/ise))
+- [nexys4ddr / nexysa7](nexys4ddr.bit) ([rebuild](https://github.com/fontamsoc/hw/tree/master/pu32-nexys4ddr/vivado))
 
 Connect to serial port using 115200n8.
 
