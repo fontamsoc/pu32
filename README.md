@@ -22,6 +22,10 @@ Build artifacts get generated in current directory.
 
 Exit the simulator using `poweroff`.
 
+### Target binutils-sim within GDB
+
+	pu32-elf-gdb pu32-vmlinux -ex 'target sim --hdd pu32-rootfs.ext2' -ex 'load' -ex 'set args root=/dev/hda earlyprintk=keep' -ex 'r'
+
 ## Run Linux on FPGA
 
 Create mbr-style disk image (or [download prebuilt img](https://github.com/fontamsoc/pu32/releases/latest))
