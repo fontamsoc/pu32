@@ -9,7 +9,7 @@ all: pu32-toolchain.tar.xz
 
 pu32-build: pu32
 	echo - $@: NPROC == ${NPROC} >&2
-	sudo apt install -y build-essential texinfo bison flex gawk dejagnu libncurses-dev python-is-python3 libelf-dev zlib1g-dev
+	sudo apt install -y build-essential wget curl rsync bc cpio unzip texinfo bison flex gawk dejagnu libncurses-dev python-is-python3 libelf-dev zlib1g-dev
 	sudo mkdir -p /opt/pu32-toolchain
 	sudo chown "${USER}" /opt/pu32-toolchain
 	mkdir -p pu32-build
