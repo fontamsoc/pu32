@@ -44,6 +44,10 @@ Connect to serial port using 115200n8.
 
 	make -f pu32/makefile linux-menuconfig
 
+Optionally save kernel configuration to `linux/arch/pu32/configs/defconfig`:
+
+	make -f pu32/makefile linux-savedefconfig
+
 Rebuild the Linux kernel:
 
 	make -f pu32/makefile touch-linux pu32-build/linux

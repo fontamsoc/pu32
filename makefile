@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: GPL-2.0-only
 # Contributed by William Fonkou Tambe
 
-.PHONY: all linux-menuconfig buildroot-menuconfig touch-binutils touch-gcc touch-linux touch-glibc touch-buildroot touch-fontamsoc-sw clean
+.PHONY: all linux-menuconfig linux-savedefconfig buildroot-menuconfig touch-binutils touch-gcc touch-linux touch-glibc touch-buildroot touch-fontamsoc-sw clean
 
 NPROC ?= $(shell nproc)
 
@@ -93,6 +93,14 @@ linux-menuconfig:
 	if [ ! -e ${KERNEL_BUILD} ]; then mkdir -p ${KERNEL_BUILD} && cd ${KERNEL_BUILD} && \
 		make -C ${KERNEL_SOURCE} O=${KERNEL_BUILD} ARCH=pu32 defconfig; fi
 	if [ -e ${KERNEL_BUILD} ]; then cd ${KERNEL_BUILD} && make ARCH=pu32 CROSS_COMPILE=pu32-elf- menuconfig; fi
+
+linux-savedefconfig:
+	$(eval KERNEL_BUILD := "${PWD}/linux-build/")
+	$(eval KERNEL_SOURCE := "${PWD}/pu32/linux/")
+	if [ ! -e ${KERNEL_BUILD} ]; then mkdir -p ${KERNEL_BUILD} && cd ${KERNEL_BUILD} && \
+		make -C ${KERNEL_SOURCE} O=${KERNEL_BUILD} ARCH=pu32 defconfig; fi
+	if [ -e ${KERNEL_BUILD} ]; then cd ${KERNEL_BUILD} && make ARCH=pu32 CROSS_COMPILE=pu32-elf- savedefconfig; fi
+	cp -a ${KERNEL_BUILD}/defconfig ${KERNEL_SOURCE}/arch/pu32/configs/defconfig
 
 buildroot-menuconfig:
 	$(eval BUILDROOT_BUILD := "${PWD}/buildroot-build/")
