@@ -109,6 +109,13 @@ buildroot-menuconfig:
 		make -C ${BUILDROOT_SOURCE} O=${BUILDROOT_BUILD} pu32_defconfig; fi
 	if [ -e ${BUILDROOT_BUILD} ]; then cd ${BUILDROOT_BUILD} && make menuconfig; fi
 
+buildroot-savedefconfig:
+	$(eval BUILDROOT_BUILD := "${PWD}/buildroot-build/")
+	$(eval BUILDROOT_SOURCE := "${PWD}/pu32/buildroot/")
+	if [ ! -e ${BUILDROOT_BUILD} ]; then mkdir -p ${BUILDROOT_BUILD} && cd ${BUILDROOT_BUILD} && \
+		make -C ${BUILDROOT_SOURCE} O=${BUILDROOT_BUILD} pu32_defconfig; fi
+	if [ -e ${BUILDROOT_BUILD} ]; then cd ${BUILDROOT_BUILD} && make savedefconfig; fi
+
 touch-binutils:
 	touch pu32/binutils
 touch-gcc:

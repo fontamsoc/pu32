@@ -56,6 +56,10 @@ Rebuild the Linux kernel:
 
 	make -f pu32/makefile buildroot-menuconfig
 
+Optionally save Buildroot configuration to `buildroot/configs/pu32_defconfig`:
+
+	make -f pu32/makefile buildroot-savedefconfig
+
 Rebuild Buildroot:
 
 	make -f pu32/makefile touch-buildroot pu32-build/buildroot
