@@ -116,6 +116,20 @@ buildroot-savedefconfig:
 		make -C ${BUILDROOT_SOURCE} O=${BUILDROOT_BUILD} pu32_defconfig; fi
 	if [ -e ${BUILDROOT_BUILD} ]; then cd ${BUILDROOT_BUILD} && make savedefconfig; fi
 
+buildroot-busybox-menuconfig:
+	$(eval BUILDROOT_BUILD := "${PWD}/buildroot-build/")
+	$(eval BUILDROOT_SOURCE := "${PWD}/pu32/buildroot/")
+	if [ ! -e ${BUILDROOT_BUILD} ]; then mkdir -p ${BUILDROOT_BUILD} && cd ${BUILDROOT_BUILD} && \
+		make -C ${BUILDROOT_SOURCE} O=${BUILDROOT_BUILD} pu32_defconfig; fi
+	if [ -e ${BUILDROOT_BUILD} ]; then cd ${BUILDROOT_BUILD} && make busybox-menuconfig; fi
+
+buildroot-busybox-savedefconfig:
+	$(eval BUILDROOT_BUILD := "${PWD}/buildroot-build/")
+	$(eval BUILDROOT_SOURCE := "${PWD}/pu32/buildroot/")
+	if [ ! -e ${BUILDROOT_BUILD} ]; then mkdir -p ${BUILDROOT_BUILD} && cd ${BUILDROOT_BUILD} && \
+		make -C ${BUILDROOT_SOURCE} O=${BUILDROOT_BUILD} pu32_defconfig; fi
+	cp -a ${BUILDROOT_BUILD}/build/busybox-*/.config ${BUILDROOT_SOURCE}/package/busybox/busybox.config
+
 touch-binutils:
 	touch pu32/binutils
 touch-gcc:

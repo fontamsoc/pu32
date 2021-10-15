@@ -60,6 +60,14 @@ Optionally save Buildroot configuration to `buildroot/configs/pu32_defconfig`:
 
 	make -f pu32/makefile buildroot-savedefconfig
 
+Reconfigure BusyBox:
+
+	make -f pu32/makefile buildroot-busybox-menuconfig
+
+Optionally save BusyBox configuration to `buildroot/package/busybox/busybox.config`:
+
+	make -f pu32/makefile buildroot-busybox-savedefconfig
+
 Rebuild Buildroot:
 
 	make -f pu32/makefile touch-buildroot pu32-build/buildroot
