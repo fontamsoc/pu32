@@ -71,7 +71,7 @@ pu32-build/buildroot: pu32/buildroot
 
 pu32-build/fontamsoc-sw: pu32/fontamsoc-sw
 	echo - $@: NPROC == ${NPROC} >&2
-	cd pu32/fontamsoc-sw/bios && make -j${NPROC} install;
+	cd pu32/fontamsoc-sw/bios && make clean && make -j${NPROC} install;
 	touch $@
 
 pu32-toolchain.tar.xz: \
