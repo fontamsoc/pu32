@@ -40,6 +40,22 @@ Flash corresponding FPGA bitstream:
 
 Connect to serial port using 115200n8.
 
+## Run Linux using verilator
+
+Build executable `pu32/fontamsoc-hw/pu32-sim/sim` from top module file `pu32/fontamsoc-hw/pu32-sim/sim.v` and testbench file `pu32/fontamsoc-hw/pu32-sim/sim.cpp`:
+
+	make -f pu32/fontamsoc-hw/pu32-sim/makefile
+
+Convert disk image to verilog .hex file to be loaded through $readmemh():
+
+	hexdump -v -e '/1 "%02x "' pu32-vmlinux.img > pu32/fontamsoc-hw/pu32-sim/img.hex
+
+Run executable:
+
+	./pu32/fontamsoc-hw/pu32-sim/sim
+
+Terminate executable using ctrl+c.
+
 ## Reconfigure Linux kernel
 
 	make -f pu32/makefile linux-menuconfig
