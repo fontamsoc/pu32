@@ -1,9 +1,10 @@
 # PU32
 [![pu32-toolchain](https://github.com/fontamsoc/pu32/actions/workflows/release.yml/badge.svg)](https://github.com/fontamsoc/pu32/actions/workflows/release.yml)
 
+	git clone --recursive https://github.com/fontamsoc/pu32.git
+
 ## Build toolchain (or [download prebuilts](https://github.com/fontamsoc/pu32/releases/latest))
 
-	git clone --recursive https://github.com/fontamsoc/pu32.git
 	sudo ln -snf /bin/bash /bin/sh
 	sudo mkdir -p /opt/pu32-toolchain/
 	sudo chown ${UID} /opt/pu32-toolchain/
