@@ -47,7 +47,7 @@ pu32-build/linux: pu32/linux
 pu32-build/glibc: pu32/glibc
 	echo - $@: NPROC == ${NPROC} >&2
 	if [ ! -e glibc-build ]; then mkdir -p glibc-build && cd glibc-build && \
-		CXX=no libc_cv_with_fp=no libc_cv_ssp=no libc_cv_ssp_all=no libc_cv_ssp_strong=no ${PWD}/pu32/glibc/configure --host=pu32-elf --target=pu32-elf --prefix=/opt/pu32-toolchain/pu32-elf --libexecdir=/opt/pu32-toolchain/pu32-elf/lib --disable-profile --enable-kernel=5.0 --with-headers=/opt/pu32-toolchain/include --enable-static-nss && \
+		CXX=no libc_cv_with_fp=no libc_cv_ssp=no libc_cv_ssp_all=no libc_cv_ssp_strong=no ${PWD}/pu32/glibc/configure --host=pu32-elf --target=pu32-elf --prefix=/opt/pu32-toolchain/pu32-elf --libexecdir=/opt/pu32-toolchain/pu32-elf/lib --disable-profile --enable-kernel=5.0 --with-headers=/opt/pu32-toolchain/include --enable-static-nss --disable-nscd && \
 		make update-syscall-lists; fi
 	if [ -e glibc-build ]; then cd glibc-build && make -j${NPROC} && make install; fi
 	touch $@
