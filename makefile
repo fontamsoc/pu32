@@ -11,7 +11,7 @@ all: pu32-toolchain.tar.xz
 
 pu32-build: pu32
 	echo - $@: NPROC == ${NPROC} >&2
-	${SUDO} apt install -y build-essential wget curl rsync bc cpio unzip texinfo bison flex gawk dejagnu libncurses-dev python-is-python3 libelf-dev zlib1g-dev libgmp-dev
+	${SUDO} apt install -y build-essential wget curl rsync bc cpio unzip texinfo bison flex gawk dejagnu libncurses-dev python-is-python3 libelf-dev zlib1g-dev libgmp-dev libexpat-dev
 	${SUDO} mkdir -p /opt/pu32-toolchain
 	${SUDO} chown "${USER}" /opt/pu32-toolchain
 	mkdir -p pu32-build
@@ -20,7 +20,7 @@ pu32-build: pu32
 pu32-build/binutils: pu32/binutils
 	echo - $@: NPROC == ${NPROC} >&2
 	if [ ! -e binutils-build ]; then mkdir -p binutils-build && cd binutils-build && \
-		${PWD}/pu32/binutils/configure --target=pu32-elf --prefix=/opt/pu32-toolchain --disable-nls; fi
+		${PWD}/pu32/binutils/configure --target=pu32-elf --prefix=/opt/pu32-toolchain --with-expat --disable-nls; fi
 	if [ -e binutils-build ]; then cd binutils-build && make -j${NPROC} && make install; fi
 	ln -snf ../include /opt/pu32-toolchain/pu32-elf/include
 	touch $@
