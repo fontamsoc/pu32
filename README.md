@@ -29,11 +29,11 @@ Exit the simulator using `poweroff`.
 
 ## Run Linux on FPGA
 
-Create mbr-style disk image (or [download prebuilt img](https://github.com/fontamsoc/pu32/releases/latest))
+Create mbr-style disk image (or [download prebuilt img](https://github.com/fontamsoc/pu32/releases/latest/download/pu32.img.xz))
 
-	sudo /opt/pu32-toolchain/bin/pu32-mksocimg -k pu32-vmlinux.bin -r pu32-rootfs.ext2 pu32-vmlinux.img
+	sudo /opt/pu32-toolchain/bin/pu32-mksocimg -k pu32-vmlinux.bin -r pu32-rootfs.ext2 pu32.img
 
-Flash image to sdcard using either `dd if=pu32-vmlinux.img of=/dev/<sdx> bs=1M oflag=sync status=progress` or [BalenaEtcher](https://www.balena.io/etcher).
+Flash image to sdcard using either `dd if=pu32.img of=/dev/<sdx> bs=1M oflag=sync status=progress` or [BalenaEtcher](https://www.balena.io/etcher).
 
 Flash corresponding FPGA bitstream:
 - [nexys4ddr / nexysa7](nexys4ddr.bit) ([rebuild](https://github.com/fontamsoc/hw/tree/master/pu32-nexys4ddr/vivado))
@@ -47,13 +47,13 @@ Build verilator-sim:
 
 	(cd pu32/fontamsoc-hw/pu32-sim/ && make)
 
-Create mbr-style disk image (or [download prebuilt img](https://github.com/fontamsoc/pu32/releases/latest))
+Create mbr-style disk image (or [download prebuilt img](https://github.com/fontamsoc/pu32/releases/latest/download/pu32.img.xz))
 
-	sudo /opt/pu32-toolchain/bin/pu32-mksocimg -k pu32-vmlinux.bin -r pu32-rootfs.ext2 pu32-vmlinux.img
+	sudo /opt/pu32-toolchain/bin/pu32-mksocimg -k pu32-vmlinux.bin -r pu32-rootfs.ext2 pu32.img
 
 Convert disk image to verilog .hex file to be loaded through $readmemh():
 
-	hexdump -v -e '/1 "%02x "' pu32-vmlinux.img > pu32/fontamsoc-hw/pu32-sim/img.hex
+	hexdump -v -e '/1 "%02x "' pu32.img > pu32/fontamsoc-hw/pu32-sim/pu32.img.hex
 
 Run verilator-sim:
 
