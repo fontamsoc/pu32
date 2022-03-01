@@ -23,9 +23,9 @@ jobs:
           sudo mkdir -p /opt/pu32-toolchain/
           sudo chown ${UID} /opt/pu32-toolchain/
           PATH="${PATH}:/opt/pu32-toolchain/bin" make -f pu32/makefile > pu32/build.log
-          sudo /opt/pu32-toolchain/bin/pu32-mksocimg -k pu32-vmlinux.bin -r pu32-rootfs.ext2 pu32-vmlinux.img
-          sudo chown ${UID}:$(id -g) pu32-vmlinux.img
-          xz pu32-vmlinux pu32-vmlinux.bin pu32-rootfs.ext2 pu32-vmlinux.img
+          sudo /opt/pu32-toolchain/bin/pu32-mksocimg -k pu32-vmlinux.bin -r pu32-rootfs.ext2 pu32.img
+          sudo chown ${UID}:$(id -g) pu32.img
+          xz pu32-vmlinux pu32-vmlinux.bin pu32-rootfs.ext2 pu32.img
           mv *.xz pu32/
       - name: Save build.log
         uses: actions/upload-artifact@v2
@@ -111,13 +111,13 @@ jobs:
           asset_path: pu32-rootfs.ext2.xz
           asset_name: pu32-rootfs.ext2.xz
           asset_content_type: application/x-xz
-      - name: Save pu32-vmlinux.img.xz
+      - name: Save pu32.img.xz
         if: startsWith(github.ref, 'refs/heads/')
         uses: actions/upload-artifact@v2
         with:
-          path: pu32-vmlinux.img.xz
-          name: pu32-vmlinux.img.xz
-      - name: Upload pu32-vmlinux.img.xz
+          path: pu32.img.xz
+          name: pu32.img.xz
+      - name: Upload pu32.img.xz
         if: startsWith(github.ref, 'refs/tags/')
         id: upload-vmlinux-img-xz
         uses: actions/upload-release-asset@v1
@@ -125,6 +125,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: pu32-vmlinux.img.xz
-          asset_name: pu32-vmlinux.img.xz
+          asset_path: pu32.img.xz
+          asset_name: pu32.img.xz
           asset_content_type: application/x-xz
