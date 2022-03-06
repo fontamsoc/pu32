@@ -19,13 +19,13 @@ Build artifacts get generated in current directory.
 
 ## Run Linux in binutils-sim
 
-	pu32-elf-run --hdd pu32-rootfs.ext2 pu32-vmlinux root=/dev/hda earlyprintk=keep
+	pu32-elf-run --hdd pu32-rootfs.ext2 pu32-vmlinux.elf root=/dev/hda earlyprintk=keep
 
 Exit the simulator using `poweroff`.
 
 ### Target binutils-sim within GDB
 
-	pu32-elf-gdb pu32-vmlinux -ex 'target sim --hdd pu32-rootfs.ext2' -ex 'load' -ex 'set args root=/dev/hda earlyprintk=keep' -ex 'r'
+	pu32-elf-gdb pu32-vmlinux.elf -ex 'target sim --hdd pu32-rootfs.ext2' -ex 'load' -ex 'set args root=/dev/hda earlyprintk=keep' -ex 'r'
 
 ## Run Linux on FPGA
 

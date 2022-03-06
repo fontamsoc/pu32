@@ -41,7 +41,7 @@ pu32-build/linux: pu32/linux
 		make -C ${KERNEL_SOURCE} O=${KERNEL_BUILD} ARCH=pu32 defconfig && \
 		make ARCH=pu32 CROSS_COMPILE=pu32-elf- V=1 INSTALL_HDR_PATH=/opt/pu32-toolchain headers_install; fi
 	if [ -e ${KERNEL_BUILD} ]; then cd ${KERNEL_BUILD} && make ARCH=pu32 CROSS_COMPILE=pu32-elf- V=1 vmlinux.bin && \
-		mv vmlinux ../pu32-vmlinux && mv arch/pu32/boot/vmlinux.bin ../pu32-vmlinux.bin; fi
+		mv vmlinux ../pu32-vmlinux.elf && mv arch/pu32/boot/vmlinux.bin ../pu32-vmlinux.bin; fi
 	touch $@
 
 pu32-build/glibc: pu32/glibc
@@ -145,4 +145,4 @@ touch-fontamsoc-sw:
 
 clean:
 	rm -rf pu32-build binutils-build linux-build glibc-build gcc-build buildroot-build \
-		pu32-vmlinux pu32-vmlinux.bin pu32-rootfs.ext2 pu32-toolchain.tar.xz
+		pu32-vmlinux.elf pu32-vmlinux.bin pu32-rootfs.ext2 pu32-toolchain.tar.xz
