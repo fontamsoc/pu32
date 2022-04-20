@@ -36,8 +36,11 @@ Create mbr-style disk image (or [download prebuilt img](https://github.com/fonta
 Flash image to sdcard using either `dd if=pu32.img of=/dev/<sdx> bs=1M oflag=sync status=progress` or [BalenaEtcher](https://www.balena.io/etcher).
 
 Flash corresponding FPGA bitstream:
-- [nexys4ddr / nexysa7](nexys4ddr.bit) ([rebuild](https://github.com/fontamsoc/hw/tree/master/pu32-nexys4ddr/vivado))
-- [nexysvideo](nexysvideo.bit) ([rebuild](https://github.com/fontamsoc/hw/tree/master/pu32-nexysvideo/vivado))
+- [nexys4ddr / nexysa7](nexys4ddr.bit) ([rebuild](https://github.com/fontamsoc/hw/tree/main/pu32-nexys4ddr/vivado2020))
+- [nexysvideo](nexysvideo.bit) ([rebuild](https://github.com/fontamsoc/hw/tree/main/pu32-nexysvideo/vivado2020))
+- [genesys2](genesys2.bit) ([rebuild](https://github.com/fontamsoc/hw/tree/main/pu32-genesys2/vivado2020))
+- [orangecrab0225](orangecrab0225.dfu) ([rebuild](https://github.com/fontamsoc/hw/tree/main/pu32-orangecrab0225/yosys))
+- [orangecrab0285](orangecrab0285.dfu) ([rebuild](https://github.com/fontamsoc/hw/tree/main/pu32-orangecrab0285/yosys))
 
 Connect to serial port using 115200n8.
 
