@@ -29,7 +29,7 @@ gcc-build: pu32/gcc
 	echo - $@: NPROC == ${NPROC} >&2
 	if [ ! -e gcc-build ]; then cd pu32/gcc && ./contrib/download_prerequisites && cd - && \
 		mkdir -p gcc-build && cd gcc-build && \
-		${PWD}/pu32/gcc/configure --target=pu32-elf --prefix=/opt/pu32-toolchain --libexecdir=/opt/pu32-toolchain/lib --without-headers --disable-libssp --enable-languages=c --disable-nls && \
+		${PWD}/pu32/gcc/configure --target=pu32-elf --prefix=/opt/pu32-toolchain --libexecdir=/opt/pu32-toolchain/lib --without-headers --disable-libssp --disable-libatomic --enable-languages=c --disable-nls && \
 		make -j${NPROC} && make install; fi
 	touch $@
 
@@ -55,7 +55,7 @@ pu32-build/glibc: pu32/glibc
 pu32-build/gcc: pu32/gcc
 	echo - $@: NPROC == ${NPROC} >&2
 	if [ ! -e $@ ]; then cd gcc-build && \
-		${PWD}/pu32/gcc/configure --target=pu32-elf --prefix=/opt/pu32-toolchain --libexecdir=/opt/pu32-toolchain/lib --without-headers --disable-libssp --enable-languages=c,c++ --disable-nls; fi
+		${PWD}/pu32/gcc/configure --target=pu32-elf --prefix=/opt/pu32-toolchain --libexecdir=/opt/pu32-toolchain/lib --without-headers --disable-libssp --enable-libatomic --enable-languages=c,c++ --disable-nls; fi
 	if [ -e gcc-build ]; then cd gcc-build && make -j${NPROC} && make install; fi
 	touch $@
 
