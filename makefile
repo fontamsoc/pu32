@@ -95,7 +95,7 @@ pu32-build/linux-headers:
 	mkdir -p ${KERNEL_INSTALL_HDR_PATH}
 	[ -e ${KERNEL_BUILD} ] && cd ${KERNEL_BUILD} && \
 		make ARCH=pu32 CROSS_COMPILE=pu32-elf- V=1 INSTALL_HDR_PATH=${KERNEL_INSTALL_HDR_PATH} headers_install
-	tar -caf ${PWD}/pu32/linux-headers.tar.gz --owner=0 --group=0 -C ${KERNEL_INSTALL_HDR_PATH} include && rm -rf ${KERNEL_INSTALL_HDR_PATH}
+	tar -caf ${PWD}/pu32/linux-headers.tar.xz --owner=0 --group=0 -C ${KERNEL_INSTALL_HDR_PATH} include && rm -rf ${KERNEL_INSTALL_HDR_PATH}
 
 linux-menuconfig:
 	$(eval KERNEL_BUILD := "${PWD}/linux-build/")
