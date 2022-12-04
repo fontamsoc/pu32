@@ -23,6 +23,9 @@ pu32-build/binutils: pu32/binutils
 		${PWD}/pu32/binutils/configure --target=pu32-elf --prefix=/opt/pu32-toolchain --with-expat --disable-nls; fi
 	if [ -e binutils-build ]; then cd binutils-build && make -j${NPROC} && make install; fi
 	ln -snf ../include /opt/pu32-toolchain/pu32-elf/include
+	rm -f $$(find /opt/pu32-toolchain/ | fgrep -e .so -e .la)
+	rm -rf /opt/pu32-toolchain/{,pu32-elf/}{var,share}
+	if [ -n "${USEGIT}" ]; then cd /opt/pu32-toolchain/; if [ ! -d .git ]; then git init; fi; git add .; git commit -m "$@"; fi
 	touch $@
 
 gcc-build: pu32/gcc
@@ -32,6 +35,9 @@ gcc-build: pu32/gcc
 		${PWD}/pu32/gcc/configure --target=pu32-elf --prefix=/opt/pu32-toolchain --libexecdir=/opt/pu32-toolchain/lib --without-headers \
 			--disable-libssp --disable-multilib --disable-gcov --disable-lto --disable-libatomic --enable-languages=c --disable-nls && \
 		make -j${NPROC} && make install; fi
+	rm -f $$(find /opt/pu32-toolchain/ | fgrep -e .so -e .la)
+	rm -rf /opt/pu32-toolchain/{,pu32-elf/}{var,share}
+	if [ -n "${USEGIT}" ]; then cd /opt/pu32-toolchain/; if [ ! -d .git ]; then git init; fi; git add .; git commit -m "$@"; fi
 	touch $@
 
 pu32-build/linux: pu32/linux
@@ -43,6 +49,7 @@ pu32-build/linux: pu32/linux
 		make ARCH=pu32 CROSS_COMPILE=pu32-elf- V=1 INSTALL_HDR_PATH=/opt/pu32-toolchain headers_install; fi
 	if [ -e ${KERNEL_BUILD} ]; then cd ${KERNEL_BUILD} && make ARCH=pu32 CROSS_COMPILE=pu32-elf- V=1 vmlinux.bin && \
 		mv vmlinux ../pu32-vmlinux.elf && mv arch/pu32/boot/vmlinux.bin ../pu32-vmlinux.bin; fi
+	if [ -n "${USEGIT}" ]; then cd /opt/pu32-toolchain/; if [ ! -d .git ]; then git init; fi; git add .; git commit -m "$@"; fi
 	touch $@
 
 pu32-build/glibc: pu32/glibc
@@ -52,6 +59,11 @@ pu32-build/glibc: pu32/glibc
 			--enable-kernel=5.0 --with-headers=/opt/pu32-toolchain/include --disable-profile --enable-static-nss --disable-nscd --disable-werror --without-gd --disable-nls && \
 		make update-syscall-lists; fi
 	if [ -e glibc-build ]; then cd glibc-build && make -j${NPROC} && make install; fi
+	rm -f $$(find /opt/pu32-toolchain/ | fgrep -e .so -e .la)
+	rm -f /opt/pu32-toolchain/pu32-elf/bin/{ldd,pldd,sotruss,sprof}
+	rm -f /opt/pu32-toolchain/pu32-elf/sbin/{ldconfig,sln}
+	rm -rf /opt/pu32-toolchain/{,pu32-elf/}{var,share}
+	if [ -n "${USEGIT}" ]; then cd /opt/pu32-toolchain/; if [ ! -d .git ]; then git init; fi; git add .; git commit -m "$@"; fi
 	touch $@
 
 pu32-build/gcc: pu32/gcc
@@ -60,6 +72,15 @@ pu32-build/gcc: pu32/gcc
 		${PWD}/pu32/gcc/configure --target=pu32-elf --prefix=/opt/pu32-toolchain --libexecdir=/opt/pu32-toolchain/lib --without-headers \
 			--disable-libssp --disable-multilib --disable-gcov --disable-lto --enable-libatomic --enable-languages=c,c++ --disable-nls; fi
 	if [ -e gcc-build ]; then cd gcc-build && make -j${NPROC} && make install; fi
+	rm -f $$(find /opt/pu32-toolchain/ | fgrep -e .so -e .la)
+	rm -rf /opt/pu32-toolchain/{,pu32-elf/}{var,share}
+	if [ -n "${USEGIT}" ]; then cd /opt/pu32-toolchain/; if [ ! -d .git ]; then git init; fi; git add .; git commit -m "$@"; fi
+	touch $@
+
+pu32-build/fontamsoc-sw: pu32/fontamsoc-sw
+	echo - $@: NPROC == ${NPROC} >&2
+	cd pu32/fontamsoc-sw/bios && make clean && make -j${NPROC} install;
+	if [ -n "${USEGIT}" ]; then cd /opt/pu32-toolchain/; if [ ! -d .git ]; then git init; fi; git add .; git commit -m "$@"; fi
 	touch $@
 
 pu32-build/buildroot: pu32/buildroot
@@ -72,11 +93,6 @@ pu32-build/buildroot: pu32/buildroot
 		mv images/rootfs.ext2 ../pu32-rootfs.ext2; fi
 	touch $@
 
-pu32-build/fontamsoc-sw: pu32/fontamsoc-sw
-	echo - $@: NPROC == ${NPROC} >&2
-	cd pu32/fontamsoc-sw/bios && make clean && make -j${NPROC} install;
-	touch $@
-
 pu32-toolchain.tar.xz: \
 	pu32-build \
 	pu32-build/binutils \
@@ -84,8 +100,8 @@ pu32-toolchain.tar.xz: \
 	pu32-build/linux \
 	pu32-build/glibc \
 	pu32-build/gcc \
-	pu32-build/buildroot \
-	pu32-build/fontamsoc-sw
+	pu32-build/fontamsoc-sw \
+	pu32-build/buildroot
 	echo - $@: NPROC == ${NPROC} >&2
 	tar -caf pu32-toolchain.tar.xz --owner=0 --group=0 -C /opt/ --exclude pu32-toolchain/.git pu32-toolchain && \
 		ls -lha >&2
