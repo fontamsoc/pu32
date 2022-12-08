@@ -20,7 +20,7 @@ pu32-build: pu32
 pu32-build/binutils: pu32/binutils
 	echo - $@: NPROC == ${NPROC} >&2
 	if [ ! -e binutils-build ]; then mkdir -p binutils-build && cd binutils-build && \
-		${PWD}/pu32/binutils/configure --target=pu32-elf --prefix=/opt/pu32-toolchain --with-expat --disable-nls; fi
+		${PWD}/pu32/binutils/configure --target=pu32-elf --prefix=/opt/pu32-toolchain --with-expat --disable-nls --disable-tui; fi
 	if [ -e binutils-build ]; then cd binutils-build && make -j${NPROC} && make install; fi
 	ln -snf ../include /opt/pu32-toolchain/pu32-elf/include
 	rm -f $$(find /opt/pu32-toolchain/ | fgrep -e .so -e .la)
