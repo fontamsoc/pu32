@@ -103,8 +103,8 @@ pu32-toolchain.tar.xz: \
 	pu32-build/fontamsoc-sw \
 	pu32-build/buildroot
 	echo - $@: NPROC == ${NPROC} >&2
-	tar -caf pu32-toolchain.tar.xz --owner=0 --group=0 -C /opt/ --exclude pu32-toolchain/.git pu32-toolchain && \
-		ls -lha >&2
+	if [ -n "${USETAR}" ]; then tar -caf pu32-toolchain.tar.xz --owner=0 --group=0 -C /opt/ --exclude pu32-toolchain/.git pu32-toolchain && \
+		ls -lha >&2; fi
 
 pu32-build/linux-headers:
 	echo - $@: NPROC == ${NPROC} >&2

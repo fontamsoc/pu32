@@ -22,7 +22,7 @@ jobs:
           sudo mount --bind /${PWD} /opt/
           sudo mkdir -p /opt/pu32-toolchain/
           sudo chown ${UID} /opt/pu32-toolchain/
-          PATH="${PATH}:/opt/pu32-toolchain/bin" make -f pu32/makefile > pu32/build.log
+          PATH="${PATH}:/opt/pu32-toolchain/bin" make USETAR=1 -f pu32/makefile > pu32/build.log
           sudo /opt/pu32-toolchain/bin/pu32-mksocimg -k pu32-vmlinux.bin -r pu32-rootfs.ext2 pu32.img
           sudo chown ${UID}:$(id -g) pu32.img
           xz pu32-vmlinux.elf pu32-vmlinux.bin pu32-rootfs.ext2 pu32.img
