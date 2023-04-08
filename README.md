@@ -44,11 +44,7 @@ Flash corresponding FPGA bitstream:
 
 Connect to serial port using 115200n8.
 
-## Run Linux using verilator-sim
-
-Build verilator-sim:
-
-	(cd pu32/fontamsoc-hw/pu32-sim/ && make)
+## Run Linux using verilator sim
 
 Create mbr-style disk image (or [download prebuilt img](https://github.com/fontamsoc/pu32/releases/latest/download/pu32.img.xz))
 
@@ -58,9 +54,9 @@ Convert disk image to verilog .hex file to be loaded through $readmemh():
 
 	hexdump -v -e '/1 "%02x "' pu32.img > pu32/fontamsoc-hw/pu32-sim/pu32.img.hex
 
-Run verilator-sim:
+Run verilator sim:
 
-	(cd pu32/fontamsoc-hw/pu32-sim/ && ./sim)
+	(cd pu32/fontamsoc-hw/pu32-sim/ && make run)
 
 Terminate verilator-sim using ctrl+c.
 
