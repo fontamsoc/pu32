@@ -24,7 +24,6 @@ pu32-build/binutils: pu32/binutils
 	if [ -e binutils-build ]; then cd binutils-build && make -j${NPROC} && make install; fi
 	ln -snf ../include /opt/pu32-toolchain/pu32-elf/include
 	rm -f $$(find /opt/pu32-toolchain/ | fgrep -e .so -e .la)
-	rm -rf /opt/pu32-toolchain/{,pu32-elf/}{var,share}
 	if [ -n "${USEGIT}" ]; then cd /opt/pu32-toolchain/; if [ ! -d .git ]; then git init; fi; git add .; git commit -m "$@"; fi
 	touch $@
 
@@ -36,7 +35,6 @@ gcc-build: pu32/gcc
 			--disable-libssp --disable-multilib --disable-gcov --disable-lto --disable-libatomic --enable-languages=c --disable-nls && \
 		make -j${NPROC} && make install; fi
 	rm -f $$(find /opt/pu32-toolchain/ | fgrep -e .so -e .la)
-	rm -rf /opt/pu32-toolchain/{,pu32-elf/}{var,share}
 	if [ -n "${USEGIT}" ]; then cd /opt/pu32-toolchain/; if [ ! -d .git ]; then git init; fi; git add .; git commit -m "$@"; fi
 	touch $@
 
@@ -62,7 +60,6 @@ pu32-build/glibc: pu32/glibc
 	rm -f $$(find /opt/pu32-toolchain/ | fgrep -e .so -e .la)
 	rm -f /opt/pu32-toolchain/pu32-elf/bin/{ldd,pldd,sotruss,sprof}
 	rm -f /opt/pu32-toolchain/pu32-elf/sbin/{ldconfig,sln}
-	rm -rf /opt/pu32-toolchain/{,pu32-elf/}{var,share}
 	if [ -n "${USEGIT}" ]; then cd /opt/pu32-toolchain/; if [ ! -d .git ]; then git init; fi; git add .; git commit -m "$@"; fi
 	touch $@
 
@@ -73,7 +70,6 @@ pu32-build/gcc: pu32/gcc
 			--disable-libssp --disable-multilib --disable-gcov --disable-lto --enable-libatomic --enable-languages=c,c++ --disable-nls; fi
 	if [ -e gcc-build ]; then cd gcc-build && make -j${NPROC} && make install; fi
 	rm -f $$(find /opt/pu32-toolchain/ | fgrep -e .so -e .la)
-	rm -rf /opt/pu32-toolchain/{,pu32-elf/}{var,share}
 	if [ -n "${USEGIT}" ]; then cd /opt/pu32-toolchain/; if [ ! -d .git ]; then git init; fi; git add .; git commit -m "$@"; fi
 	touch $@
 
