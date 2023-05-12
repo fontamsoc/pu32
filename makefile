@@ -11,7 +11,7 @@ all: pu32-toolchain.tar.xz
 
 pu32-build: pu32
 	echo - $@: NPROC == ${NPROC} >&2
-	${SUDO} apt install -y build-essential bsdmainutils dosfstools parted wget curl rsync bc cpio unzip texinfo bison flex gawk dejagnu libncurses-dev python-is-python3 libelf-dev zlib1g-dev libgmp-dev libmpfr-dev libexpat-dev
+	${SUDO} apt install -y build-essential bsdmainutils dosfstools parted wget curl rsync bc cpio unzip texinfo bison flex gawk dejagnu gettext libncurses-dev python-is-python3 libelf-dev zlib1g-dev libgmp-dev libmpfr-dev libexpat-dev
 	${SUDO} mkdir -p /opt/pu32-toolchain
 	${SUDO} chown "${USER}" /opt/pu32-toolchain
 	mkdir -p pu32-build
