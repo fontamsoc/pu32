@@ -76,6 +76,8 @@ pu32-build/gcc: pu32/gcc
 pu32-build/fontamsoc-sw: pu32/fontamsoc-sw
 	echo - $@: NPROC == ${NPROC} >&2
 	cd pu32/fontamsoc-sw/bios && make clean && make -j${NPROC} install;
+	${SUDO} apt install -y autoconf libconfuse-dev pkg-config genext2fs mtools
+	cd pu32/fontamsoc-sw/mksocimg && make clean && make -j${NPROC} install;
 	if [ -n "${USEGIT}" ]; then cd /opt/pu32-toolchain/; if [ ! -d .git ]; then git init; fi; git add .; git commit -m "$@"; fi
 	touch $@
 

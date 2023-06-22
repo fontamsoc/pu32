@@ -31,7 +31,7 @@ Exit the simulator using `poweroff`.
 
 Create mbr-style disk image (or [download prebuilt img](https://github.com/fontamsoc/pu32/releases/latest/download/pu32.img.xz))
 
-	sudo /opt/pu32-toolchain/bin/pu32-mksocimg -k pu32-vmlinux.bin -r pu32-rootfs.ext2 pu32.img
+	pu32-mksocimg -k pu32-vmlinux.bin -r pu32-rootfs.ext2 pu32.img
 
 Flash image to sdcard using either `dd if=pu32.img of=/dev/<sdx> bs=1M oflag=sync status=progress` or [BalenaEtcher](https://www.balena.io/etcher).
 
@@ -48,7 +48,7 @@ Connect to serial port using 115200n8.
 
 Create mbr-style disk image (or [download prebuilt img](https://github.com/fontamsoc/pu32/releases/latest/download/pu32.img.xz))
 
-	sudo /opt/pu32-toolchain/bin/pu32-mksocimg -k pu32-vmlinux.bin -r pu32-rootfs.ext2 pu32.img
+	pu32-mksocimg -k pu32-vmlinux.bin -r pu32-rootfs.ext2 pu32.img
 
 Convert disk image to verilog .hex file to be loaded through $readmemh():
 
