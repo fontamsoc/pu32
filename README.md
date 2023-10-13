@@ -3,7 +3,7 @@
 
 	git clone --recursive https://github.com/fontamsoc/pu32.git
 
-## Build toolchain (or [download prebuilts](https://github.com/fontamsoc/pu32/releases/latest))
+## Build toolchain (or [download prebuilt](https://github.com/fontamsoc/pu32/releases/latest/download/pu32-toolchain.tar.xz))
 
 	sudo ln -snf /bin/bash /bin/sh
 	sudo mkdir -p /opt/pu32-toolchain/
@@ -29,7 +29,7 @@ Exit the simulator using `poweroff`.
 
 ## Run Linux on FPGA
 
-Create mbr-style disk image (or [download prebuilt img](https://github.com/fontamsoc/pu32/releases/latest/download/pu32.img.xz))
+Create mbr-style disk image (or [download prebuilt](https://github.com/fontamsoc/pu32/releases/latest/download/pu32.img.xz))
 
 	pu32-mksocimg -k pu32-vmlinux.bin -r pu32-rootfs.ext2 pu32.img
 
@@ -46,7 +46,7 @@ Connect to serial port using 115200n8.
 
 ## Run Linux using verilator sim
 
-Create mbr-style disk image (or [download prebuilt img](https://github.com/fontamsoc/pu32/releases/latest/download/pu32.img.xz))
+Create mbr-style disk image (or [download prebuilt](https://github.com/fontamsoc/pu32/releases/latest/download/pu32.img.xz))
 
 	pu32-mksocimg -k pu32-vmlinux.bin -r pu32-rootfs.ext2 pu32.img
 
